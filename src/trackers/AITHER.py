@@ -51,7 +51,7 @@ class AITHER():
         open_torrent = open(f"{meta['base_dir']}/tmp/{meta['uuid']}/[{self.tracker}]{meta['clean_name']}.torrent", 'rb')
         files = {'torrent': open_torrent}
         
-        if ('-Kitsune' in name):
+        if ('-<TAG>' in name):
             iPR = 0
             iInternal = 1
             iFree = 100
