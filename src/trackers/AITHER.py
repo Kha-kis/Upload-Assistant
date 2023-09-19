@@ -50,9 +50,19 @@ class AITHER():
         desc = open(f"{meta['base_dir']}/tmp/{meta['uuid']}/[{self.tracker}]DESCRIPTION.txt", 'r').read()
         open_torrent = open(f"{meta['base_dir']}/tmp/{meta['uuid']}/[{self.tracker}]{meta['clean_name']}.torrent", 'rb')
         files = {'torrent': open_torrent}
+        
+        if ('-Kitsune' in name):
+            iPR = 0
+            iInternal = 1
+            iFree = 100
+            with open(f"{meta['base_dir']}/data/templates/Aither_desc.txt", 'r') as f:
+                desc_template = f.read()
+            idesc = desc_template.format(
+                name=name,
+            )    
         data = {
             'name' : name,
-            'description' : desc,
+            'description' : idesc,
             'mediainfo' : mi_dump,
             'bdinfo' : bd_dump, 
             'category_id' : cat_id,
@@ -67,10 +77,10 @@ class AITHER():
             'stream' : meta['stream'],
             'sd' : meta['sd'],
             'keywords' : meta['keywords'],
-            'personal_release' : int(meta.get('personalrelease', False)),
-            'internal' : 0,
+            'personal_release' : iPR,
+            'internal' : iInternal,
             'featured' : 0,
-            'free' : 0,
+            'free' : iFree,
             'doubleup' : 0,
             'sticky' : 0,
         }
@@ -80,7 +90,7 @@ class AITHER():
         params = {
             'api_token': self.config['TRACKERS'][self.tracker]['api_key'].strip()
         }
-
+        
         # Internal
         if self.config['TRACKERS'][self.tracker].get('internal', False) == True:
             if meta['tag'] != "" and (meta['tag'][1:] in self.config['TRACKERS'][self.tracker].get('internal_groups', [])):
